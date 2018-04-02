@@ -21,9 +21,7 @@ reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],
                      username=priv["reddit_credentials"]["username"],
                      password=priv["reddit_credentials"]["password"])
 
-print(private["reddit_credentials"]["user_agent"])
-
-subreddit = reddit.subreddit('news')
+subreddit = reddit.subreddit('test')
 
 first = re.compile(r'(\s1st|\sfirst)\s(amendment)', re.I)
 second = re.compile(r'(\s2nd|\ssecond)\s(amendment)', re.I)
