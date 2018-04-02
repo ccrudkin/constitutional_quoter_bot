@@ -22,7 +22,7 @@ reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],  # see
                      username=priv["reddit_credentials"]["username"],
                      password=priv["reddit_credentials"]["password"])
 
-subreddit = reddit.subreddit('test')
+subreddit = reddit.subreddit('Libertarian')
 
 first = re.compile(r'(\s1st|\sfirst)\s(amendment)', re.I)
 second = re.compile(r'(\s2nd|\ssecond)\s(amendment)', re.I)
