@@ -11,11 +11,12 @@ import os
 
 cwd = os.getcwd()
 files = cwd + '/Files/'
+print(files)
 
-with open(files + "private_info.json", "r") as p:
+with open(files + "private_info.json", "r") as p:  # must create Files/private_info.json and populate with info
     priv = json.load(p)
 
-reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],
+reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],  # see readme and PRAW docs for more info.
                      client_id=priv["reddit_credentials"]["client_id"],
                      client_secret=priv["reddit_credentials"]["client_secret"],
                      username=priv["reddit_credentials"]["username"],
