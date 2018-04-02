@@ -1,2 +1,0 @@
-# User agent: 
-webscript:keyword_context_interpreter:v.1.0.0 (by /u/crudkin)
