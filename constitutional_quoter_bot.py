@@ -1,6 +1,7 @@
 # TODO: Make list of ignored users dynamic and expandable via comment replies.
 # TODO: Run in multiple subs at once. (Eventually).
 # TODO: Avoid attempts to comment on LOCKED posts.
+# TODO: Clean up to meet PEP-8, especially with line lengths.
 
 import praw
 from datetime import datetime
@@ -13,7 +14,8 @@ cwd = os.getcwd()
 files = cwd + '/Files/'
 print(files)
 
-with open(files + "private_info.json", "r") as p:  # must create Files/private_info.json and populate with info
+with open(files + "private_info.json", "r") as p:
+    # must create Files/private_info.json and populate with info
     priv = json.load(p)
 
 reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],  # see readme and PRAW docs for more info.
@@ -35,8 +37,10 @@ eighth = re.compile(r'(\s8th|\seighth)\s(amendment)', re.I)
 ninth = re.compile(r'(\s9th|\sninth)\s(amendment)', re.I)
 tenth = re.compile(r'(\s10th|\stenth)\s(amendment)', re.I)
 
-regs = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth]
-am_names = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth']
+regs = [first, second, third, fourth, fifth,
+        sixth, seventh, eighth, ninth, tenth]
+am_names = ['first', 'second', 'third', 'fourth', 'fifth',
+            'sixth', 'seventh', 'eighth', 'ninth', 'tenth']
 
 with open(files + 'bill_of_rights.json', 'r') as f:
     bor = json.load(f)
