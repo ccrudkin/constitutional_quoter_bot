@@ -1,7 +1,6 @@
 # TODO: Make list of ignored users dynamic and expandable via comment replies.
 # TODO: Run in multiple subs at once. (Eventually).
 # TODO: Avoid attempts to comment on LOCKED posts.
-# TODO: Clean up to meet PEP-8, especially with line lengths.
 
 import praw
 from datetime import datetime
@@ -18,13 +17,14 @@ with open(files + "private_info.json", "r") as p:
     # must create Files/private_info.json and populate with info
     priv = json.load(p)
 
-reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],  # see readme and PRAW docs for more info.
+reddit = praw.Reddit(user_agent=priv["reddit_credentials"]["user_agent"],
                      client_id=priv["reddit_credentials"]["client_id"],
                      client_secret=priv["reddit_credentials"]["client_secret"],
                      username=priv["reddit_credentials"]["username"],
                      password=priv["reddit_credentials"]["password"])
+# ^ see readme and PRAW docs for more info on these fields.
 
-subreddit = reddit.subreddit('Libertarian')
+subreddit = reddit.subreddit('news')
 
 first = re.compile(r'(\s1st|\sfirst)\s(amendment)', re.I)
 second = re.compile(r'(\s2nd|\ssecond)\s(amendment)', re.I)
@@ -54,8 +54,10 @@ def print_results():  # for debugging regex results
             mo = r.search(comment.body)
             if mo:
                 print('{} alert from u/{}'.format(mo.group(0), comment.author))
-                print(comment.body[:140] + ' ...')  # print first 140 characters of comment
-                print('https://www.reddit.com' + comment.permalink)  # this combo creates a live hyperlink
+                print(comment.body[:140] + ' ...')
+                # print first 140 characters of comment
+                print('https://www.reddit.com' + comment.permalink)
+                # this combo creates a live hyperlink
                 print('r/{} @ {}'.format(comment.subreddit, datetime.now()))
                 print('Submission ID: {}'.format(comment.submission))
                 print()
@@ -64,20 +66,25 @@ def print_results():  # for debugging regex results
 def respond_with_amendments():
     print('Ignore: {}'.format(ignore))
     for comment in subreddit.stream.comments():
-        if comment.author not in ignore['users'] and str(comment.submission) not in ignore['submissions']:
+        if (comment.author not in ignore['users'] and str(comment.submission)
+                not in ignore['submissions']):
             for r in regs:
                 mo = r.search(comment.body)
                 if mo:
                     am_name = am_names[regs.index(r)]
                     basic_rep = bor['basic_reply'].format(am_name)
-                    am_text = 'The {} amendment states: \n\n*{}*'.format(am_name, bor[am_name])
-                    full_reply = basic_rep + am_text + bor['bot_info'] + bor['more_bot_info']
+                    am_text = 'The {} amendment states: \n\n*{}*'.format(
+                        am_name, bor[am_name])
+                    full_reply = basic_rep + am_text + bor['bot_info'] \
+                        + bor['more_bot_info']
                     comment.reply(full_reply)
-                    ignore['submissions'].append(str(comment.submission))  # Limits to 1 response per submission.
-                    print('Replied to https://www.reddit.com{}\nat {}'.format(comment.permalink, datetime.now()))
+                    ignore['submissions'].append(str(comment.submission))
+                    # ^ Limits to 1 response per submission.
+                    print('Replied to https://www.reddit.com{}\nat {}'.format(
+                        comment.permalink, datetime.now()))
                     return 'snoozeplease'
     return 'snoozeplease'
-                    # Respond appropriately, check user/sub blacklists, etc. Call other functions for each task!
+    # Respond appropriately, check user/sub blacklists, etc.
 
 
 def loop_replier():
